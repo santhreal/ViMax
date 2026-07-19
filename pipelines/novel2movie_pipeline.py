@@ -546,7 +546,10 @@ class Novel2MoviePipeline:
         print("📌 Summary:")
         print(f"📌 Before Compression: {len(novel_text)} characters")
         print(f"📌 After Compression: {len(compressed_novel)} characters")
-        print(f"📌 Compression Ratio: {len(compressed_novel) / len(novel_text):.2%}")
+        if novel_text:
+            print(f"📌 Compression Ratio: {len(compressed_novel) / len(novel_text):.2%}")
+        else:
+            print("📌 Compression Ratio: n/a (empty novel text)")
 
         print("📋 Step 1: Compress the novel text".center(80, "-"))
 
