@@ -40,13 +40,6 @@ def _event_file_index(path: str) -> int:
     return int(os.path.basename(path).split("_")[1].split(".")[0])
 
 
-def format_compression_ratio(novel_text: str, compressed_novel: str) -> str:
-    """Human-readable compression ratio; empty novel has no ratio."""
-    if not novel_text:
-        return "n/a (empty novel text)"
-    return f"{len(compressed_novel) / len(novel_text):.2%}"
-
-
 def _scene_file_index(path: str) -> int:
     return int(os.path.basename(path).split("_")[1].split(".")[0])
 
@@ -194,6 +187,8 @@ class Novel2MoviePipeline:
             if os.path.exists(chunks_dir) and os.listdir(chunks_dir):
                 relevant = {}
                 for chunk_fname in os.listdir(chunks_dir):
+                    if "-score_" not in chunk_fname or not chunk_fname.endswith(".txt"):
+                        continue
                     chunk_path = os.path.join(chunks_dir, chunk_fname)
                     score = float(chunk_fname.split("-score_")[1].split(".txt")[0])
                     with open(chunk_path, "r", encoding="utf-8") as f:
@@ -553,7 +548,10 @@ class Novel2MoviePipeline:
         print("📌 Summary:")
         print(f"📌 Before Compression: {len(novel_text)} characters")
         print(f"📌 After Compression: {len(compressed_novel)} characters")
-        print(f"📌 Compression Ratio: {format_compression_ratio(novel_text, compressed_novel)}")
+        if novel_text:
+            print(f"📌 Compression Ratio: {len(compressed_novel) / len(novel_text):.2%}")
+        else:
+            print("📌 Compression Ratio: n/a (empty novel text)")
 
         print("📋 Step 1: Compress the novel text".center(80, "-"))
 
@@ -662,6 +660,8 @@ class Novel2MoviePipeline:
             if os.path.exists(chunks_dir) and len(os.listdir(chunks_dir)) > 0:
                 relevant_chunk_score_dict = {}
                 for chunk_fname in os.listdir(chunks_dir):
+                    if "-score_" not in chunk_fname or not chunk_fname.endswith(".txt"):
+                        continue
                     chunk_path = os.path.join(chunks_dir, chunk_fname)
                     score = float(chunk_fname.split('-score_')[1].split('.txt')[0])
                     with open(chunk_path, "r", encoding="utf-8") as f:
