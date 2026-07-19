@@ -12,3 +12,10 @@ def safe_path_component(name) -> str:
     cleaned = re.sub(r"[^\w\-. ]", "_", str(name))
     cleaned = cleaned.strip().lstrip(".")
     return cleaned or "unnamed"
+
+
+def format_compression_ratio(novel_text: str, compressed_novel: str) -> str:
+    """Human-readable compression ratio; empty novel has no ratio."""
+    if not novel_text:
+        return "n/a (empty novel text)"
+    return f"{len(compressed_novel) / len(novel_text):.2%}"

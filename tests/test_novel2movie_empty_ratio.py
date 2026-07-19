@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from pipelines.novel2movie_pipeline import format_compression_ratio
+from utils.text import format_compression_ratio
 
 
 def test_empty_novel_ratio_is_na() -> None:

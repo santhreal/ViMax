@@ -22,7 +22,7 @@ from interfaces import (
 )
 from tenacity import retry
 
-from utils.text import safe_path_component
+from utils.text import safe_path_component, format_compression_ratio
 
 
 
