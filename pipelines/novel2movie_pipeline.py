@@ -187,6 +187,8 @@ class Novel2MoviePipeline:
             if os.path.exists(chunks_dir) and os.listdir(chunks_dir):
                 relevant = {}
                 for chunk_fname in os.listdir(chunks_dir):
+                    if "-score_" not in chunk_fname or not chunk_fname.endswith(".txt"):
+                        continue
                     chunk_path = os.path.join(chunks_dir, chunk_fname)
                     score = float(chunk_fname.split("-score_")[1].split(".txt")[0])
                     with open(chunk_path, "r", encoding="utf-8") as f:
@@ -655,6 +657,8 @@ class Novel2MoviePipeline:
             if os.path.exists(chunks_dir) and len(os.listdir(chunks_dir)) > 0:
                 relevant_chunk_score_dict = {}
                 for chunk_fname in os.listdir(chunks_dir):
+                    if "-score_" not in chunk_fname or not chunk_fname.endswith(".txt"):
+                        continue
                     chunk_path = os.path.join(chunks_dir, chunk_fname)
                     score = float(chunk_fname.split('-score_')[1].split('.txt')[0])
                     with open(chunk_path, "r", encoding="utf-8") as f:
