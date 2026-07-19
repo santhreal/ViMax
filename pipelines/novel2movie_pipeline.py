@@ -40,6 +40,13 @@ def _event_file_index(path: str) -> int:
     return int(os.path.basename(path).split("_")[1].split(".")[0])
 
 
+def format_compression_ratio(novel_text: str, compressed_novel: str) -> str:
+    """Human-readable compression ratio; empty novel has no ratio."""
+    if not novel_text:
+        return "n/a (empty novel text)"
+    return f"{len(compressed_novel) / len(novel_text):.2%}"
+
+
 def _scene_file_index(path: str) -> int:
     return int(os.path.basename(path).split("_")[1].split(".")[0])
 
@@ -546,7 +553,7 @@ class Novel2MoviePipeline:
         print("📌 Summary:")
         print(f"📌 Before Compression: {len(novel_text)} characters")
         print(f"📌 After Compression: {len(compressed_novel)} characters")
-        print(f"📌 Compression Ratio: {len(compressed_novel) / len(novel_text):.2%}")
+        print(f"📌 Compression Ratio: {format_compression_ratio(novel_text, compressed_novel)}")
 
         print("📋 Step 1: Compress the novel text".center(80, "-"))
 
